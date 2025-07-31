@@ -12,6 +12,12 @@ app.get('/', (request, response) => {
     response.send('<h1>Puhelinluettelo!</h1>')
   })
 
+app.get('/info', (request, response) => {
+    const info = `<p>Phonebook has info for ${persons.length} people</p>`
+    const date = `<p>${new Date()}</p>`
+    response.send(info + date)
+})
+
 app.get('/api/persons', (request, response) => {
     response.json(persons);
 })
