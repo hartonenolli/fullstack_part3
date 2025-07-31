@@ -51,12 +51,26 @@ app.post('/api/persons', (request, response) => {
         name: body.name,
         number: body.number
     }
+    if (personCheck(newPerson)) {
+        return response.status(400).json(personCheck(newPerson))
+    }
     console.log('Adding new person:', newPerson);
     console.log('Current persons:', persons);
 
     persons = persons.concat(newPerson)
     response.json(newPerson)
 })
+
+const personCheck = (newPerson) => {
+    const existingPerson = persons.find(p => p.name === newPerson.name)
+    if (existingPerson) {
+        return { error: 'Name must be unique' }
+    }
+    if (!newPerson.name || !newPerson.number) {
+        return { error: 'Name or number is missing' }
+    }
+    return null
+}
 
 const PORT = 3001;
 app.listen(PORT, () => {
